@@ -1,24 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
 
 :root {
-    --primary: #437057;
-    --border: #ececec;
-    --customWhite: #f7f7f7;
-    --muted-foreground: #d8d8d8;
-    --foreground: #222222;
+  --primary: #437057;
+  --border: #ececec;
+  --customWhite: #f7f7f7;
+  --muted-foreground: #d8d8d8;
+  --foreground: #222222;
 }
 
 @theme inline {
-    --color-primary: var(--primary);
-    --color-border: var(--border);
-    --color-customWhite: var(--customWhite);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-border: var(--border);
+  --color-customWhite: var(--customWhite);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-foreground: var(--foreground);
 }
 
 body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: "Outfit", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Outfit", sans-serif;
 }
