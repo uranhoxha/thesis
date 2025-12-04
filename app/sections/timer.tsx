@@ -71,7 +71,7 @@ export function Timer() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between bg-customWhite rounded-xl border border-border text-primary p-4 flex-1">
+    <div className="flex flex-col items-center justify-between bg-customWhite rounded-xl border border-border text-customGreen p-4 flex-1">
       <div className="flex gap-2 mb-4 flex-col justify-center w-full">
         <button
           onClick={() => {

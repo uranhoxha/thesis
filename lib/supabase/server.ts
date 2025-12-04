@@ -1,0 +1,33 @@
+import { createServerClient } from "@supabase/auth-helpers-nextjs";
+import type { CookieOptions } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+
+export async function createClient() {
+  const cookieStore = await cookies(); // <-- FIX: await the promise
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string): string | undefined {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions): void {
+          cookieStore.set({
+            name,
+            value,
+            ...options,
+          });
+        },
+        remove(name: string, options: CookieOptions): void {
+          cookieStore.set({
+            name,
+            value: "",
+            ...options,
+          });
+        },
+      },
+    }
+  );
+}
