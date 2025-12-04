@@ -1,10 +1,11 @@
-import { Friends } from "./sections/friends";
-import { Main } from "./sections/main";
-import { Sidebar } from "./sections/sidebar";
-import { Timer } from "./sections/timer";
-import { Topbar } from "./sections/topbar";
+import { Friends } from "../../sections/friends";
+import { Main } from "../../sections/main";
+import { Sidebar } from "../../sections/sidebar";
+import { Timer } from "../../sections/timer";
+import { Topbar } from "../../sections/topbar";
 
 export default function Home() {
+  
   return (
     <div className="flex h-screen p-2 gap-2">
       <Sidebar />
