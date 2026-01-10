@@ -1,11 +1,10 @@
-import { Friends } from "../../sections/friends";
+import { BuyList } from "../../sections/buy-list";
 import { Main } from "../../sections/main";
 import { Sidebar } from "../../sections/sidebar";
 import { Timer } from "../../sections/timer";
 import { Topbar } from "../../sections/topbar";
 
 export default function Home() {
-  
   return (
     <div className="flex h-screen p-2 gap-2">
       <Sidebar />
@@ -17,7 +16,7 @@ export default function Home() {
           <Main />
 
           <div className="flex flex-col w-64 gap-2">
-            <Friends />
+            <BuyList />
             <Timer />
           </div>
         </div>

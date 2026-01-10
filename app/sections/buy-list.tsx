@@ -1,7 +1,7 @@
-export function Friends() {
+export function BuyList() {
   return (
     <div className="flex-2 bg-customWhite rounded-xl border border-border text-customGreen px-4 py-2">
-      <h1 className="text-xl">Friends</h1>
+      <h1 className="text-xl">To-Buy List</h1>
     </div>
   );
 }
