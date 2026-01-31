@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useState } from "react";
 import {
   addBuyItem,
   deleteBuyItem,
@@ -10,87 +10,108 @@ import {
 import { Item } from "@/types/buy-items";
 import { Plus, Trash2, Loader2, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function BuyList() {
-  const [items, setItems] = useState<Item[]>([]);
   const [newItem, setNewItem] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
-  const fetchItems = async () => {
-    try {
-      const data = await getBuyItems();
-      setItems(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: items = [], isLoading } = useQuery({
+    queryKey: ["buy-items"],
+    queryFn: () => getBuyItems(),
+  });
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  const addMutation = useMutation({
+    mutationFn: (title: string) => addBuyItem(title),
+    onMutate: async (title) => {
+      await queryClient.cancelQueries({ queryKey: ["buy-items"] });
+      const previousItems = queryClient.getQueryData<Item[]>(["buy-items"]);
+      
+      const optimisticItem: Item = {
+        id: Date.now(),
+        title,
+        quantity: "1",
+        checked: false,
+        created_at: new Date().toISOString(),
+      };
 
-  const handleAddItem = async (e: React.FormEvent) => {
+      queryClient.setQueryData<Item[]>(["buy-items"], (old = []) => [
+        ...old,
+        optimisticItem,
+      ]);
+
+      return { previousItems };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousItems) {
+        queryClient.setQueryData(["buy-items"], context.previousItems);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["buy-items"] });
+    },
+  });
+
+  const toggleMutation = useMutation({
+    mutationFn: ({ id, checked }: { id: number; checked: boolean }) =>
+      toggleBuyItem(id, checked),
+    onMutate: async ({ id, checked }) => {
+      await queryClient.cancelQueries({ queryKey: ["buy-items"] });
+      const previousItems = queryClient.getQueryData<Item[]>(["buy-items"]);
+
+      queryClient.setQueryData<Item[]>(["buy-items"], (old = []) =>
+        old.map((item) =>
+          item.id === id ? { ...item, checked: checked } : item
+        )
+      );
+
+      return { previousItems };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousItems) {
+        queryClient.setQueryData(["buy-items"], context.previousItems);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["buy-items"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteBuyItem,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["buy-items"] });
+      const previousItems = queryClient.getQueryData<Item[]>(["buy-items"]);
+
+      queryClient.setQueryData<Item[]>(["buy-items"], (old = []) =>
+        old.filter((item) => item.id !== id)
+      );
+
+      return { previousItems };
+    },
+    onError: (err, variables, context) => {
+       if (context?.previousItems) {
+        queryClient.setQueryData(["buy-items"], context.previousItems);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["buy-items"] });
+    },
+  });
+
+  const handleAddItem = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newItem.trim()) return;
-
-    const tempId = Date.now();
-    const optimisticItem: Item = {
-      id: tempId,
-      title: newItem,
-      quantity: "1",
-      checked: false,
-      created_at: new Date().toISOString(),
-    };
-
-    setItems((prev) => [...prev, optimisticItem]);
+    addMutation.mutate(newItem);
     setNewItem("");
-
-    startTransition(async () => {
-      try {
-        await addBuyItem(optimisticItem.title);
-        await fetchItems(); // Re-fetch to get real ID
-      } catch (error) {
-        setItems((prev) => prev.filter((item) => item.id !== tempId));
-        console.error("Failed to add item");
-      }
-    });
   };
 
-  const handleToggle = async (id: number, currentChecked: boolean) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, checked: !currentChecked } : item
-      )
-    );
-
-    startTransition(async () => {
-      try {
-        await toggleBuyItem(id, !currentChecked);
-      } catch (error) {
-        // Revert on error
-        setItems((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, checked: currentChecked } : item
-          )
-        );
-      }
-    });
+  const handleToggle = (id: number, currentChecked: boolean) => {
+    toggleMutation.mutate({ id, checked: !currentChecked });
   };
 
-  const handleDelete = async (id: number) => {
-    const previousItems = items;
-    setItems((prev) => prev.filter((item) => item.id !== id));
-
-    startTransition(async () => {
-      try {
-        await deleteBuyItem(id);
-      } catch (error) {
-        setItems(previousItems);
-      }
-    });
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
   };
 
   return (
@@ -103,7 +124,7 @@ export function BuyList() {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center py-4">
             <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
           </div>
@@ -157,10 +178,10 @@ export function BuyList() {
           />
           <button
             type="submit"
-            disabled={!newItem.trim() || isPending}
+            disabled={!newItem.trim() || addMutation.isPending}
             className="p-2 bg-customGreen text-white rounded-lg hover:bg-customGreen/90 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm"
           >
-            {isPending ? (
+            {addMutation.isPending ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
               <Plus className="w-5 h-5" />
