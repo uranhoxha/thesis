@@ -1,8 +1,8 @@
-import { BuyList } from "../../sections/buy-list";
-import { Main } from "../../sections/main";
-import { Sidebar } from "../../sections/sidebar";
-import { Timer } from "../../sections/timer";
-import { Topbar } from "../../sections/topbar";
+import { BuyList } from "@/features/buy-list/components/buy-list";
+import { Main } from "@/features/dashboard/components/main-view";
+import { Sidebar } from "@/components/layout/sidebar";
+import { Timer } from "@/features/timer/components/timer";
+import { Topbar } from "@/components/layout/topbar";
 
 export default function Home() {
   return (

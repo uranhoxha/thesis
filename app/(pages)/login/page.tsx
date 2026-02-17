@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { login } from "@/app/actions/auth";
+import { login } from "@/features/auth/api/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -83,7 +83,12 @@ export default function LoginPage() {
           </form>
           <div className="flex items-center justify-between mt-4">
             <p>Don&apos;t have an account?</p>
-            <Link href="/signup" className="text-customGreen underline hover:text-customGreen/70">Cook one right now.</Link>
+            <Link
+              href="/signup"
+              className="text-customGreen underline hover:text-customGreen/70"
+            >
+              Cook one right now.
+            </Link>
           </div>
         </CardContent>
       </Card>

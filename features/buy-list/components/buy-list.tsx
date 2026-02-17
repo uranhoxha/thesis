@@ -6,8 +6,8 @@ import {
   deleteBuyItem,
   getBuyItems,
   toggleBuyItem,
-} from "../actions/buy-list";
-import { Item } from "@/types/buy-items";
+} from "../api/buy-list";
+import { Item } from "../types/buy-items";
 import { Plus, Trash2, Loader2, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ export function BuyList() {
     onMutate: async (title) => {
       await queryClient.cancelQueries({ queryKey: ["buy-items"] });
       const previousItems = queryClient.getQueryData<Item[]>(["buy-items"]);
-      
+
       const optimisticItem: Item = {
         id: Date.now(),
         title,
@@ -61,8 +61,8 @@ export function BuyList() {
 
       queryClient.setQueryData<Item[]>(["buy-items"], (old = []) =>
         old.map((item) =>
-          item.id === id ? { ...item, checked: checked } : item
-        )
+          item.id === id ? { ...item, checked: checked } : item,
+        ),
       );
 
       return { previousItems };
@@ -84,13 +84,13 @@ export function BuyList() {
       const previousItems = queryClient.getQueryData<Item[]>(["buy-items"]);
 
       queryClient.setQueryData<Item[]>(["buy-items"], (old = []) =>
-        old.filter((item) => item.id !== id)
+        old.filter((item) => item.id !== id),
       );
 
       return { previousItems };
     },
     onError: (err, variables, context) => {
-       if (context?.previousItems) {
+      if (context?.previousItems) {
         queryClient.setQueryData(["buy-items"], context.previousItems);
       }
     },
@@ -138,7 +138,7 @@ export function BuyList() {
               key={item.id}
               className={cn(
                 "group flex items-center gap-3 p-2 rounded-lg transition-colors hover:bg-gray-50 border border-transparent hover:border-gray-100",
-                item.checked && "opacity-60"
+                item.checked && "opacity-60",
               )}
             >
               <input
@@ -150,7 +150,7 @@ export function BuyList() {
               <span
                 className={cn(
                   "flex-1 text-sm transition-all",
-                  item.checked && "line-through text-gray-400"
+                  item.checked && "line-through text-gray-400",
                 )}
               >
                 {item.title}
@@ -192,4 +192,3 @@ export function BuyList() {
     </div>
   );
 }
-

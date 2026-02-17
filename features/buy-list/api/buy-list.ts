@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { Item } from "@/types/buy-items";
+import { Item } from "../types/buy-items";
 import { revalidatePath } from "next/cache";
 
 export async function getBuyItems(): Promise<Item[]> {

@@ -2,7 +2,12 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useCallback, useEffect } from "react";
-import { getRecipe, updateRecipe, deleteRecipe, Recipe } from "../actions/recipes";
+import {
+  getRecipe,
+  updateRecipe,
+  deleteRecipe,
+  Recipe,
+} from "@/features/recipes/api/recipes";
 import { Loader2, Save, Trash2 } from "lucide-react";
 import {
   AlertDialog,
@@ -23,8 +28,11 @@ export function Main() {
   const recipeId = searchParams.get("recipeId");
   const queryClient = useQueryClient();
 
-
-  const { data: recipe, isLoading, error } = useQuery({
+  const {
+    data: recipe,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["recipe", Number(recipeId)],
     queryFn: () => getRecipe(Number(recipeId)),
     enabled: !!recipeId,
@@ -39,19 +47,24 @@ export function Main() {
     }
   }, [recipe]);
 
-  const handleUpdate = useCallback(async (updates: Partial<Recipe>) => {
-    if (!recipeId) return;
-    setSaving(true);
-    try {
-      await updateRecipe(Number(recipeId), updates);
-      queryClient.invalidateQueries({ queryKey: ["recipe", Number(recipeId)] });
-      queryClient.invalidateQueries({ queryKey: ["recipes"] });
-    } catch (error) {
-      console.error("Failed to save");
-    } finally {
-      setSaving(false);
-    }
-  }, [recipeId, queryClient]);
+  const handleUpdate = useCallback(
+    async (updates: Partial<Recipe>) => {
+      if (!recipeId) return;
+      setSaving(true);
+      try {
+        await updateRecipe(Number(recipeId), updates);
+        queryClient.invalidateQueries({
+          queryKey: ["recipe", Number(recipeId)],
+        });
+        queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      } catch (error) {
+        console.error("Failed to save");
+      } finally {
+        setSaving(false);
+      }
+    },
+    [recipeId, queryClient],
+  );
 
   const debounce = (func: Function, wait: number) => {
     let timeout: NodeJS.Timeout;
@@ -61,9 +74,12 @@ export function Main() {
     };
   };
 
-  const debouncedSave = useCallback(debounce((updates: Partial<Recipe>) => {
-    handleUpdate(updates);
-  }, 1000), [handleUpdate]);
+  const debouncedSave = useCallback(
+    debounce((updates: Partial<Recipe>) => {
+      handleUpdate(updates);
+    }, 1000),
+    [handleUpdate],
+  );
 
   const handleChange = (field: keyof Recipe, value: string) => {
     if (!localRecipe) return;
@@ -89,14 +105,16 @@ export function Main() {
       <div className="flex-3 bg-customWhite rounded-xl border border-border text-customGreen flex items-center justify-center">
         <div className="text-center space-y-2 opacity-50">
           <p className="text-lg font-medium">No Recipe Selected</p>
-          <p className="text-sm">Select a recipe from the sidebar or help yourself to a new one.</p>
+          <p className="text-sm">
+            Select a recipe from the sidebar or help yourself to a new one.
+          </p>
         </div>
       </div>
     );
   }
 
   if (isLoading) {
-     return (
+    return (
       <div className="flex-3 bg-customWhite rounded-xl border border-border text-customGreen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin opacity-50" />
       </div>
@@ -104,7 +122,7 @@ export function Main() {
   }
 
   if (error || !localRecipe) {
-     return (
+    return (
       <div className="flex-3 bg-customWhite rounded-xl border border-border text-customGreen flex items-center justify-center">
         <p>Recipe not found.</p>
       </div>
@@ -122,36 +140,40 @@ export function Main() {
           className="text-4xl font-bold bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-gray-300 w-full"
         />
         <div className="flex items-center gap-2">
-           {saving && (
-             <span className="text-xs text-gray-400 flex items-center gap-1 animate-pulse">
-               <Save className="w-3 h-3" /> Saving...
-             </span>
-           )}
-           
-           <AlertDialog>
-             <AlertDialogTrigger asChild>
-               <button 
-                 className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
-                 title="Delete Recipe"
-               >
-                 <Trash2 className="w-5 h-5" />
-               </button>
-             </AlertDialogTrigger>
-             <AlertDialogContent>
-               <AlertDialogHeader>
-                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                 <AlertDialogDescription>
-                   This action cannot be undone. This will permanently delete your recipe.
-                 </AlertDialogDescription>
-               </AlertDialogHeader>
-               <AlertDialogFooter>
-                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                 <AlertDialogAction onClick={handleDelete} className="bg-red-500 hover:bg-red-600">
-                   Delete
-                 </AlertDialogAction>
-               </AlertDialogFooter>
-             </AlertDialogContent>
-           </AlertDialog>
+          {saving && (
+            <span className="text-xs text-gray-400 flex items-center gap-1 animate-pulse">
+              <Save className="w-3 h-3" /> Saving...
+            </span>
+          )}
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button
+                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
+                title="Delete Recipe"
+              >
+                <Trash2 className="w-5 h-5" />
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your recipe.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDelete}
+                  className="bg-red-500 hover:bg-red-600"
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 

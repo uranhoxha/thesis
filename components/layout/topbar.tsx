@@ -1,7 +1,7 @@
 "use client";
 import { UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../actions/auth";
+import { getCurrentUser } from "@/features/auth/api/auth";
 import tipsData from "@/public/cooking-tips.json";
 
 export function Topbar() {

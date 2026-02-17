@@ -4,9 +4,9 @@ import Image from "next/image";
 import Logo from "@/public/logo.svg";
 import { Button } from "@/components/ui/button";
 import { LogOut, Plus, FileText, Loader2 } from "lucide-react";
-import { logout } from "../actions/auth";
+import { logout } from "@/features/auth/api/auth";
 import { useTransition } from "react";
-import { createRecipe, getRecipes } from "../actions/recipes";
+import { createRecipe, getRecipes } from "@/features/recipes/api/recipes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/browser";
@@ -39,7 +39,7 @@ export function Sidebar() {
         },
         () => {
           queryClient.invalidateQueries({ queryKey: ["recipes"] });
-        }
+        },
       )
       .subscribe();
 
@@ -66,13 +66,11 @@ export function Sidebar() {
 
   return (
     <div className="bg-customWhite rounded-xl border border-border text-customGreen w-64 flex flex-col py-4 gap-4 h-full">
-
       <div className="px-2 flex flex-col items-center gap-4">
         <Image src={Logo} alt="Logo" className=" w-30" />
       </div>
 
       <div className="flex-1 flex flex-col justify-center min-h-0 gap-4 py-2">
-  
         <div className="overflow-y-auto px-2 space-y-1">
           {recipes.map((recipe) => (
             <button
@@ -82,7 +80,7 @@ export function Sidebar() {
                 "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shrink-0",
                 activeId === recipe.id
                   ? "bg-green-100/50 text-customGreen font-medium"
-                  : "hover:bg-gray-100 text-gray-600"
+                  : "hover:bg-gray-100 text-gray-600",
               )}
             >
               <FileText className="w-4 h-4 opacity-50 shrink-0" />
@@ -103,9 +101,8 @@ export function Sidebar() {
             )}
             New Recipe
           </Button>
-        </div>  
+        </div>
       </div>
-
 
       <div className="px-4 mt-auto shrink-0">
         <Button
