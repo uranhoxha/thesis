@@ -56,14 +56,14 @@ export function ChefBot() {
               src={ChatIcon}
               alt="ChefBot"
               fill
-              className="transition-opacity duration-300 group-hover:opacity-0 group-hover:-rotate-12"
+              className="transition-all duration-300 group-hover:opacity-0 group-hover:-rotate-12"
             />
 
             <Image
               src={ChatIconHover}
               alt="ChefBot Hover"
               fill
-              className="opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:-rotate-12"
+              className="opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-rotate-12"
             />
           </div>
         </Button>

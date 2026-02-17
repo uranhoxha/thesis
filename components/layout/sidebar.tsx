@@ -69,7 +69,6 @@ export function Sidebar() {
       <div className="px-2 flex flex-col items-center gap-4">
         <Image src={Logo} alt="Logo" className=" w-50 absolute top-4" />
       </div>
-
       <div className="flex-1 flex flex-col justify-center min-h-0 gap-4 py-2">
         <div className="overflow-y-auto px-2 space-y-1">
           {recipes.map((recipe) => (
