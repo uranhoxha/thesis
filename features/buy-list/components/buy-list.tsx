@@ -115,8 +115,8 @@ export function BuyList() {
   };
 
   return (
-    <div className="flex-1 bg-customWhite rounded-xl border border-border text-customGreen flex flex-col overflow-hidden h-full">
-      <div className="p-4 border-b border-border bg-gray-50/50">
+    <div className="flex-1 bg-customWhite text-customGreen flex flex-col overflow-hidden h-full">
+      <div className="p-4 ">
         <h1 className="text-lg font-semibold flex items-center gap-2">
           <ShoppingCart className="w-5 h-5" />
           To-Buy List
@@ -145,7 +145,7 @@ export function BuyList() {
                 type="checkbox"
                 checked={item.checked}
                 onChange={() => handleToggle(item.id, item.checked)}
-                className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary/20 transition cursor-pointer accent-customGreen"
+                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary/20 transition cursor-pointer accent-customGreen"
               />
               <span
                 className={cn(

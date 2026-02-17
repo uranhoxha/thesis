@@ -65,7 +65,7 @@ export function Sidebar() {
   };
 
   return (
-    <div className="bg-customWhite rounded-xl border border-border text-customGreen w-64 flex flex-col py-4 gap-4 h-full">
+    <div className="bg-customWhite rounded-l-xl border-r border-border text-customGreen w-64 flex flex-col py-4 gap-4 h-full">
       <div className="px-2 flex flex-col items-center gap-4">
         <Image src={Logo} alt="Logo" className=" w-30" />
       </div>

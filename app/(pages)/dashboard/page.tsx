@@ -6,16 +6,16 @@ import { Topbar } from "@/components/layout/topbar";
 
 export default function Home() {
   return (
-    <div className="flex h-screen p-2 gap-2">
+    <div className="flex h-[calc(100vh-1rem)] m-2 border border-border rounded-xl">
       <Sidebar />
 
-      <div className="flex flex-col flex-1 gap-2">
+      <div className="flex flex-col flex-1 rounded-xl">
         <Topbar />
 
-        <div className="flex flex-1 gap-2">
+        <div className="flex flex-1 ">
           <Main />
 
-          <div className="flex flex-col w-64 gap-2">
+          <div className="flex flex-col w-64 border-l border-border">
             <BuyList />
             <Timer />
           </div>
