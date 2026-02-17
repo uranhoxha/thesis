@@ -21,6 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { ChefBot } from "@/features/chef-bot/components/chef-bot";
 
 export function Main() {
   const searchParams = useSearchParams();
@@ -183,6 +184,8 @@ export function Main() {
         placeholder="Start typing your recipe details..."
         className="flex-1 w-full resize-none bg-transparent border-none focus:outline-none focus:ring-0 text-lg leading-relaxed placeholder:text-gray-300"
       />
+
+      <ChefBot />
     </div>
   );
 }

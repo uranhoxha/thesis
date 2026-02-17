@@ -13,7 +13,7 @@ type Mode = "stopwatch" | "countdown";
 
 export function Timer() {
   const [mode, setMode] = useState<Mode>("stopwatch");
-  const [time, setTime] = useState<number>(0); // in milliseconds
+  const [time, setTime] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [inputHours, setInputHours] = useState<number>(0);
   const [inputMinutes, setInputMinutes] = useState<number>(0);

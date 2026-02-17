@@ -40,7 +40,10 @@ export async function getRecipe(id: number): Promise<Recipe | null> {
   return data as Recipe;
 }
 
-export async function createRecipe() {
+export async function createRecipe(
+  title: string = "Untitled Recipe",
+  content: string = "",
+) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -53,8 +56,8 @@ export async function createRecipe() {
   const { data, error } = await supabase
     .from("recipes")
     .insert({
-      title: "Untitled Recipe",
-      content: "",
+      title,
+      content,
       user_id: user.id,
     })
     .select()

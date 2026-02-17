@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/red_logo.svg";
 import { Button } from "@/components/ui/button";
 import { LogOut, Plus, FileText, Loader2 } from "lucide-react";
 import { logout } from "@/features/auth/api/auth";
@@ -67,7 +67,7 @@ export function Sidebar() {
   return (
     <div className="bg-customWhite rounded-l-xl border-r border-border text-customGreen w-64 flex flex-col py-4 gap-4 h-full">
       <div className="px-2 flex flex-col items-center gap-4">
-        <Image src={Logo} alt="Logo" className=" w-30" />
+        <Image src={Logo} alt="Logo" className=" w-50 absolute top-4" />
       </div>
 
       <div className="flex-1 flex flex-col justify-center min-h-0 gap-4 py-2">
