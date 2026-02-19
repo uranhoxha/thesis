@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signup } from "@/features/auth/api/auth";
+import { createClient } from "@/lib/supabase/browser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +20,8 @@ import HappyLogo from "@/public/happy.svg";
 import EyesClosed from "@/public/eyes_closed.svg";
 import NormalLogo from "@/public/normal.svg";
 import Image from "next/image";
+import GoogleLogo from "@/public/google.svg";
+import AuthBg from "@/components/layout/auth-bg";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -44,15 +47,27 @@ export default function SignupPage() {
     if (error) setError(error.message);
   }
 
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen w-screen">
-      <div className="flex flex-col gap-4 max-w-md w-full bg-gray-100 p-4 rounded-lg shadow-md border border-border relative">
+    <div className="flex items-center justify-center h-screen w-screen relative overflow-hidden bg-gray-50">
+      <AuthBg />
+
+      <div className="relative z-10 flex flex-col gap-4 max-w-md w-full bg-gray-100 p-4 rounded-lg shadow-md border border-border">
         <div className="absolute -top-16 -left-14 w-[120px] h-[120px] group">
           <Image
             src={NormalLogo}
             alt="logo"
             fill
-            className={`transition-all duration-300 ease-in-out group-hover:-rotate-6 ${
+            className={`transition-all duration-500 ease-in-out group-hover:-rotate-6 ${
               focusedField === null ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -60,7 +75,7 @@ export default function SignupPage() {
             src={HappyLogo}
             alt="logo"
             fill
-            className={`transition-all duration-300 ease-in-out group-hover:-rotate-6 ${
+            className={`transition-all duration-500 ease-in-out group-hover:-rotate-6 ${
               focusedField === "email" ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -68,7 +83,7 @@ export default function SignupPage() {
             src={EyesClosed}
             alt="logo"
             fill
-            className={`transition-all duration-300 ease-in-out group-hover:-rotate-6 ${
+            className={`transition-all duration-500 ease-in-out group-hover:-rotate-6 ${
               focusedField === "password" || focusedField === "confirmPassword"
                 ? "opacity-100"
                 : "opacity-0"
@@ -173,7 +188,10 @@ export default function SignupPage() {
           <span className="border border-border w-full h-[1px]"></span>or{" "}
           <span className="border border-border w-full h-[1px]"></span>
         </div>
-        <Button variant="outline"> Continue with Google</Button>
+        <Button variant="outline" onClick={handleGoogleLogin}>
+          <Image src={GoogleLogo} alt="Google" width={18} height={18} />
+          <span>Continue with Google</span>
+        </Button>
       </div>
     </div>
   );

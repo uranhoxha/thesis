@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { login } from "@/features/auth/api/auth";
+import { createClient } from "@/lib/supabase/browser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +19,8 @@ import Image from "next/image";
 import HappyLogo from "@/public/happy.svg";
 import EyesClosed from "@/public/eyes_closed.svg";
 import NormalLogo from "@/public/normal.svg";
+import GoogleLogo from "@/public/google.svg";
+import AuthBg from "@/components/layout/auth-bg";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -35,8 +38,19 @@ export default function LoginPage() {
     if (error) setError(error.message);
   }
 
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen w-screen ">
+    <div className="flex items-center justify-center h-screen w-screen relative overflow-hidden bg-gray-50">
+      <AuthBg />
       <div className="flex flex-col gap-4 max-w-md w-full bg-gray-100 p-4 rounded-lg shadow-md border border-border relative">
         <div className="absolute -top-16 -left-14 w-[120px] h-[120px] group">
           <Image
@@ -134,7 +148,10 @@ export default function LoginPage() {
           <span className="border border-border w-full h-[1px]"></span>or{" "}
           <span className="border border-border w-full h-[1px]"></span>
         </div>
-        <Button variant="outline"> Continue with Google</Button>
+        <Button variant="outline" onClick={handleGoogleLogin}>
+          <Image src={GoogleLogo} alt="Google" width={18} height={18} />
+          <span>Continue with Google</span>
+        </Button>
       </div>
     </div>
   );
