@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import Image from "next/image";
 import { Loader2, Plus, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,10 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getDailyPicks } from "../data/daily-picks";
-import { createRecipe } from "@/features/recipes/api/recipes";
-import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
+import { useChefBot } from "../hooks/use-chef-bot";
 import ChatIcon from "@/public/normal.svg";
 import ChatIconHover from "@/public/happy.svg";
 
@@ -25,24 +21,8 @@ const categoryColors: Record<RecipeCategory, string> = {
 };
 
 export function ChefBot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const dailyPicks = getDailyPicks();
-
-  const handleAddRecipe = (title: string, content: string) => {
-    startTransition(async () => {
-      try {
-        const newRecipe = await createRecipe(title, content);
-        queryClient.invalidateQueries({ queryKey: ["recipes"] });
-        router.push(`/dashboard?recipeId=${newRecipe.id}`);
-        setIsOpen(false);
-      } catch (error) {
-        console.error("Failed to add recipe");
-      }
-    });
-  };
+  const { isOpen, setIsOpen, isPending, dailyPicks, handleAddRecipe } =
+    useChefBot();
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
