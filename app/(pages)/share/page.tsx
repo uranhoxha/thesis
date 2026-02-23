@@ -57,11 +57,11 @@ function SharePageContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-customWhite text-customGreen p-8 flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen bg-customWhite text-brand p-8 flex flex-col items-center justify-center gap-4">
         <p className="text-red-500 font-medium">{error}</p>
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 text-customGreen hover:underline"
+          className="flex items-center gap-2 text-brand hover:underline"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Dashboard
         </Link>
@@ -71,14 +71,14 @@ function SharePageContent() {
 
   if (!recipe) {
     return (
-      <div className="min-h-screen bg-customWhite text-customGreen flex items-center justify-center">
+      <div className="min-h-screen bg-customWhite text-brand flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin opacity-50" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-customWhite text-customGreen p-8 flex items-center justify-center">
+    <div className="min-h-screen bg-customWhite text-brand p-8 flex items-center justify-center">
       <div className="max-w-2xl w-full bg-white rounded-2xl shadow-sm border border-border p-8 pb-12 flex flex-col gap-6">
         <div className="text-center space-y-2 mb-4">
           <h1 className="text-2xl font-bold">
@@ -101,7 +101,7 @@ function SharePageContent() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full py-3 bg-customGreen text-white rounded-xl font-medium hover:bg-customGreen/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full py-3 bg-brand text-white rounded-xl font-medium hover:bg-brand/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
           {saving ? "Saving..." : "Add to My Recipes"}
@@ -109,7 +109,7 @@ function SharePageContent() {
 
         <Link
           href="/dashboard"
-          className="text-center text-sm text-gray-500 hover:text-customGreen transition"
+          className="text-center text-sm text-gray-500 hover:text-brand transition"
         >
           Maybe later
         </Link>
@@ -122,7 +122,7 @@ export default function SharePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-customWhite text-customGreen flex items-center justify-center">
+        <div className="min-h-screen bg-customWhite text-brand flex items-center justify-center">
           <Loader2 className="w-8 h-8 animate-spin opacity-50" />
         </div>
       }

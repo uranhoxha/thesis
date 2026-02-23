@@ -18,7 +18,7 @@ export function Topbar() {
   }, []);
 
   return (
-    <div className="bg-customWhite rounded-tr-xl border-b border-border text-customGreen h-16 shrink-0 flex items-center justify-between px-4">
+    <div className="bg-customWhite rounded-tr-xl border-b border-border text-brand h-16 shrink-0 flex items-center justify-between px-4">
       <h1 className="text-2xl">
         <b>Cooking tip:</b> {tip}
       </h1>

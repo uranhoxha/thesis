@@ -34,7 +34,7 @@ export function Main() {
 
   if (!recipeId) {
     return (
-      <div className="flex-3 bg-customWhite text-customGreen flex items-center justify-center">
+      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
         <div className="text-center space-y-2 opacity-50">
           <p className="text-lg font-medium">No Recipe Selected</p>
           <p className="text-sm">
@@ -47,7 +47,7 @@ export function Main() {
 
   if (isLoading) {
     return (
-      <div className="flex-3 bg-customWhite rounded-xl border border-border text-customGreen flex items-center justify-center">
+      <div className="flex-3 bg-customWhite rounded-xl border border-border text-brand flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin opacity-50" />
       </div>
     );
@@ -55,14 +55,14 @@ export function Main() {
 
   if (error || !localRecipe) {
     return (
-      <div className="flex-3 bg-customWhite rounded-xl border border-border text-customGreen flex items-center justify-center">
+      <div className="flex-3 bg-customWhite rounded-xl border border-border text-brand flex items-center justify-center">
         <p>Recipe not found.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-3 bg-customWhite text-customGreen p-8 flex flex-col gap-6 relative">
+    <div className="flex-3 bg-customWhite text-brand p-8 flex flex-col gap-6 relative">
       <div className="flex justify-between items-start gap-4">
         <input
           type="text"
@@ -80,7 +80,7 @@ export function Main() {
 
           <Button onClick={handleShare} title="Share Link" variant="ghost">
             {copied ? (
-              <Check className="w-5 h-5 text-customGreen" />
+              <Check className="w-5 h-5 text-brand" />
             ) : (
               <Share2 className="w-5 h-5" />
             )}

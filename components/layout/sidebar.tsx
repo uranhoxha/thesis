@@ -1,9 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "@/public/red_logo.svg";
+import RedLogo from "@/public/red_logo.svg";
+import GreenLogo from "@/public/green_logo.svg";
+import BlueLogo from "@/public/blue_logo.svg";
+import YellowLogo from "@/public/yellow_logo.svg";
+
 import { Button } from "@/components/ui/button";
-import { LogOut, Plus, FileText, Loader2 } from "lucide-react";
+import { LogOut, Plus, FileText, Loader2, Settings } from "lucide-react";
 import { logout } from "@/features/auth/api/auth";
 import { useTransition } from "react";
 import { createRecipe, getRecipes } from "@/features/recipes/api/recipes";
@@ -13,12 +17,23 @@ import { createClient } from "@/lib/supabase/browser";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
+import { SettingsModal } from "@/features/settings/components/settings-modal";
+import { useTheme } from "@/features/settings/hooks/use-theme";
+
+const logos = {
+  red: RedLogo,
+  green: GreenLogo,
+  blue: BlueLogo,
+  yellow: YellowLogo,
+};
+
 export function Sidebar() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeId = Number(searchParams.get("recipeId"));
   const queryClient = useQueryClient();
+  const { theme } = useTheme();
 
   const { data: recipes = [] } = useQuery({
     queryKey: ["recipes"],
@@ -64,8 +79,10 @@ export function Sidebar() {
     router.push(`/dashboard?recipeId=${id}`);
   };
 
+  const Logo = logos[theme] || GreenLogo;
+
   return (
-    <div className="bg-customWhite rounded-l-xl border-r border-border text-customGreen w-64 flex flex-col py-4 gap-4 h-full">
+    <div className="bg-customWhite rounded-l-xl border-r border-border text-brand w-64 flex flex-col py-4 gap-4 h-full">
       <div className="px-2 flex flex-col items-center gap-4">
         <Image src={Logo} alt="Logo" className=" w-50 absolute top-4" />
       </div>
@@ -78,7 +95,7 @@ export function Sidebar() {
               className={cn(
                 "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shrink-0",
                 activeId === recipe.id
-                  ? "bg-green-100/50 text-customGreen font-medium"
+                  ? "bg-green-100/50 text-brand font-medium"
                   : "hover:bg-gray-100 text-gray-600",
               )}
             >
@@ -91,7 +108,7 @@ export function Sidebar() {
           <Button
             onClick={handleCreate}
             disabled={isPending}
-            className="w-full bg-customGreen text-white hover:bg-customGreen/90"
+            className="w-full bg-brand text-white hover:bg-brand/90"
           >
             {isPending ? (
               <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -103,7 +120,16 @@ export function Sidebar() {
         </div>
       </div>
 
-      <div className="px-4 mt-auto shrink-0">
+      <div className="px-4 mt-auto shrink-0 space-y-2">
+        <SettingsModal>
+          <Button
+            variant="ghost"
+            className="w-full justify-start hover:bg-brand/10"
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Settings
+          </Button>
+        </SettingsModal>
         <Button
           variant="ghost"
           onClick={() => logout()}

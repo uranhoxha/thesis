@@ -67,7 +67,7 @@ export function ProfileModal({
                     <UserRound className="w-10 h-10" />
                   </span>
                 )}
-                <div className="absolute inset-0 bg-customGreen/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs text-center p-2 font-medium">
+                <div className="absolute inset-0 bg-brand/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs text-center p-2 font-medium">
                   {isUploading ? (
                     <Loader2 className="w-5 h-5 animate-spin mb-1" />
                   ) : (
@@ -123,7 +123,7 @@ export function ProfileModal({
                 className={`text-sm ${
                   passwordMessage.type === "error"
                     ? "text-red-500"
-                    : "text-customGreen"
+                    : "text-brand"
                 }`}
               >
                 {passwordMessage.text}

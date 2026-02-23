@@ -36,7 +36,7 @@ export function Timer() {
   } = useTimer();
 
   return (
-    <div className="flex flex-col items-center justify-between bg-customWhite text-customGreen p-4 flex-1">
+    <div className="flex flex-col items-center justify-between bg-customWhite text-brand p-4 flex-1">
       <div className="flex gap-2 mb-4 flex-col justify-center w-full">
         <button
           onClick={() => {
@@ -46,7 +46,7 @@ export function Timer() {
           }}
           className={`cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-full border text-sm font-medium transition ${
             mode === "stopwatch"
-              ? "bg-green-100 border-green-400 text-green-700"
+              ? "bg-brand/60 border-brand text-white"
               : "bg-white border-border"
           }`}
         >
@@ -61,7 +61,7 @@ export function Timer() {
           }}
           className={`cursor-pointer flex items-center justify-center gap-2 px-3 py-2 rounded-full border text-sm font-medium transition ${
             mode === "countdown"
-              ? "bg-green-100 border-green-400 text-green-700"
+              ? "bg-brand/60 border-brand text-white"
               : "bg-white border-border"
           }`}
         >
@@ -120,10 +120,10 @@ export function Timer() {
         ) : (
           <button
             onClick={handleStart}
-            className="p-2 bg-green-100 hover:bg-green-200 rounded-full border border-border cursor-pointer"
+            className="p-2 bg-brand/60 hover:bg-brand/80 rounded-full border border-border cursor-pointer"
             title="Start"
           >
-            <Play className="w-5 h-5 text-green-600" />
+            <Play className="w-5 h-5 text-white" />
           </button>
         )}
 

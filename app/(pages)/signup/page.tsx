@@ -177,7 +177,7 @@ export default function SignupPage() {
               <p>Already have an account?</p>
               <Link
                 href="/login"
-                className="text-customGreen underline hover:text-customGreen/70"
+                className="text-brand underline hover:text-brand/70"
               >
                 Log in and start cooking.
               </Link>

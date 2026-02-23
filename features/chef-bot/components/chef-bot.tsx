@@ -49,10 +49,10 @@ export function ChefBot() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96 mr-8 mb-4 p-0 overflow-hidden border-border bg-white shadow-xl rounded-xl">
-        <div className="bg-gradient-to-r from-customGreen/10 to-customGreen/5 p-4 border-b border-border">
+        <div className="bg-gradient-to-r from-brand/10 to-brand/5 p-4 border-b border-border">
           <div className="flex items-center gap-2 mb-1">
-            <ChefHat className="w-5 h-5 text-customGreen" />
-            <h3 className="font-semibold text-customGreen">ChefBot</h3>
+            <ChefHat className="w-5 h-5 text-brand" />
+            <h3 className="font-semibold text-brand">ChefBot</h3>
           </div>
           <p className="text-sm text-gray-600">
             Don't know what to cook? Here are our daily picks!
@@ -63,7 +63,7 @@ export function ChefBot() {
           {dailyPicks.map((pick, index) => (
             <div
               key={index}
-              className="group border border-gray-100 rounded-lg p-3 hover:border-customGreen/30 hover:bg-customGreen/5 transition-all"
+              className="group border border-gray-100 rounded-lg p-3 hover:border-brand/30 hover:bg-brand/5 transition-all"
             >
               <div className="flex justify-between items-start gap-2 mb-2">
                 <div>
@@ -81,7 +81,7 @@ export function ChefBot() {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="h-8 w-8 p-0 text-customGreen bg-white border border-customGreen/20 hover:bg-customGreen hover:text-white rounded-full shadow-sm"
+                  className="h-8 w-8 p-0 text-brand bg-white border border-brand/20 hover:bg-brand hover:text-white rounded-full shadow-sm"
                   onClick={() => handleAddRecipe(pick.title, pick.content)}
                   disabled={isPending}
                   title="Cook this"

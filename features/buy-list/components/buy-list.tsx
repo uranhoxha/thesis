@@ -26,7 +26,7 @@ export function BuyList() {
   } = useBuyList();
 
   return (
-    <div className="flex-1 bg-customWhite text-customGreen flex flex-col overflow-hidden h-full">
+    <div className="flex-1 bg-customWhite text-brand flex flex-col overflow-hidden h-full">
       <div className="p-4 ">
         <h1 className="text-lg font-semibold flex items-center gap-2">
           <ShoppingCart className="w-5 h-5" />
@@ -55,7 +55,7 @@ export function BuyList() {
               <Checkbox
                 checked={item.checked}
                 onCheckedChange={() => handleToggle(item.id, item.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary/20 transition cursor-pointer accent-customGreen"
+                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary/20 transition cursor-pointer accent-brand"
               />
               <span
                 className={cn(
@@ -84,12 +84,12 @@ export function BuyList() {
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
             placeholder="Add new item..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-customGreen/20 focus:border-customGreen transition"
+            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition"
           />
           <button
             type="submit"
             disabled={!newItem.trim() || addMutation.isPending}
-            className="p-2 bg-customGreen text-white rounded-lg hover:bg-customGreen/90 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm"
+            className="p-2 bg-brand text-white rounded-lg hover:bg-brand/90 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm"
           >
             {addMutation.isPending ? (
               <Loader2 className="w-5 h-5 animate-spin" />

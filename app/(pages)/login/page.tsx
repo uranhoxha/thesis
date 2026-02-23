@@ -137,7 +137,7 @@ export default function LoginPage() {
               <p>Don&apos;t have an account?</p>
               <Link
                 href="/signup"
-                className="text-customGreen underline hover:text-customGreen/70"
+                className="text-brand underline hover:text-brand/70"
               >
                 Cook one right now.
               </Link>

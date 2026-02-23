@@ -14,14 +14,22 @@ export async function middleware(req: NextRequest) {
         set: () => {},
         remove: () => {},
       },
-    }
+    },
   );
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Redirect if no user
+  if (req.nextUrl.pathname === "/") {
+    if (user) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    } else {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  // Redirect if no user trying to access other protected routes
   if (!user) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -30,5 +38,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/"],
 };
