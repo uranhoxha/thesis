@@ -10,7 +10,7 @@ export default function AuthBg() {
       <div className="absolute -top-20 -left-20 w-[512px] h-[512px] rotate-12 hover:scale-110 hover:rotate-0 transition-all duration-500 cursor-pointer">
         <Image
           src={YellowPaper}
-          alt="decoration"
+          alt="decoration" 
           fill
           className="object-contain"
         />

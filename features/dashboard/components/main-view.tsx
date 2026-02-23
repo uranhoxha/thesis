@@ -8,7 +8,8 @@ import {
   deleteRecipe,
   Recipe,
 } from "@/features/recipes/api/recipes";
-import { Loader2, Save, Trash2 } from "lucide-react";
+import { Loader2, Save, Trash2, Share2, Check } from "lucide-react";
+import LZString from "lz-string";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChefBot } from "@/features/chef-bot/components/chef-bot";
+import { Button } from "@/components/ui/button";
 
 export function Main() {
   const searchParams = useSearchParams();
@@ -41,6 +43,7 @@ export function Main() {
 
   const [localRecipe, setLocalRecipe] = useState<Recipe | null>(null);
   const [saving, setSaving] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (recipe) {
@@ -101,6 +104,24 @@ export function Main() {
     }
   };
 
+  const handleShare = async () => {
+    if (!localRecipe) return;
+    try {
+      const data = LZString.compressToEncodedURIComponent(
+        JSON.stringify({
+          title: localRecipe.title,
+          content: localRecipe.content,
+        }),
+      );
+      const url = `${window.location.origin}/share?data=${data}`;
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
+
   if (!recipeId) {
     return (
       <div className="flex-3 bg-customWhite text-customGreen flex items-center justify-center">
@@ -147,14 +168,26 @@ export function Main() {
             </span>
           )}
 
+          <Button
+            onClick={handleShare}
+            title="Share Link"
+            variant="ghost"
+          >
+            {copied ? (
+              <Check className="w-5 h-5 text-customGreen" />
+            ) : (
+              <Share2 className="w-5 h-5" />
+            )}
+          </Button>
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <button
-                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
+              <Button
                 title="Delete Recipe"
+                variant="ghost"
               >
                 <Trash2 className="w-5 h-5" />
-              </button>
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
