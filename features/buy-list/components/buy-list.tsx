@@ -11,6 +11,7 @@ import { Item } from "../types/buy-items";
 import { Plus, Trash2, Loader2, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBuyList } from "../hooks/use-buy-list";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function BuyList() {
   const {
@@ -51,10 +52,9 @@ export function BuyList() {
                 item.checked && "opacity-60",
               )}
             >
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={item.checked}
-                onChange={() => handleToggle(item.id, item.checked)}
+                onCheckedChange={() => handleToggle(item.id, item.checked)}
                 className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary/20 transition cursor-pointer accent-customGreen"
               />
               <span

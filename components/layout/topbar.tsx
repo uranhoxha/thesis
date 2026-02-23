@@ -3,6 +3,7 @@ import { UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/features/auth/api/auth";
 import tipsData from "@/public/cooking-tips.json";
+import { ProfileModal } from "@/features/profile/components/profile-modal";
 
 export function Topbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,16 +23,26 @@ export function Topbar() {
         <b>Cooking tip:</b> {tip}
       </h1>
 
-      <div className="flex items-center bg-white rounded-full border border-border gap-2 cursor-pointer w-max">
-        <div className="border border-border p-1.5 rounded-full">
-          <UserRound />
+      <ProfileModal user={user}>
+        <div className="flex items-center bg-white rounded-full border border-border gap-2 cursor-pointer w-max hover:bg-gray-50 transition-colors">
+          <div className="border border-border  rounded-full h-9 w-9 flex items-center justify-center overflow-hidden shrink-0">
+            {user?.user_metadata?.avatar_url ? (
+              <img
+                src={user.user_metadata.avatar_url}
+                alt="Avatar"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <UserRound className="w-5 h-5" />
+            )}
+          </div>
+          <div className="pr-4">
+            <h4 className="text-muted-foreground text-sm font-medium">
+              {user ? user.email : "Boiling..."}
+            </h4>
+          </div>
         </div>
-        <div className="pr-4">
-          <h4 className="text-muted-foreground">
-            {user ? user.email : "Boiling..."}
-          </h4>
-        </div>
-      </div>
+      </ProfileModal>
     </div>
   );
 }
