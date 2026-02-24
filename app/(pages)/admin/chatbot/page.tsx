@@ -16,7 +16,7 @@ export default async function AdminChatbotPage() {
   const adminEmails = process.env.ADMIN_EMAILS?.split(',') || []
 
   if (!user.email || !adminEmails.includes(user.email)) {
-    redirect('/dashboard')
+    redirect('/home')
   }
 
   const dailyPicks = await getAdminDailyPicks()

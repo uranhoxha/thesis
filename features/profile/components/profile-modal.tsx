@@ -48,7 +48,7 @@ export function ProfileModal({
             <h4 className="text-sm font-medium leading-none">
               Profile Picture{" "}
               <span className="text-xs text-muted-foreground">
-                (50MB limit)
+                (5MB limit)
               </span>
             </h4>
             <div className="flex justify-center w-full">

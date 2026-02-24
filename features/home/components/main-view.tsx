@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ChefBot } from "@/features/chef-bot/components/chef-bot";
 import { Button } from "@/components/ui/button";
-import { useRecipe } from "@/features/dashboard/hooks/use-recipe";
+import { useRecipe } from "@/features/home/hooks/use-recipe";
 
 export function Main() {
   const searchParams = useSearchParams();
@@ -47,7 +47,7 @@ export function Main() {
 
   if (isLoading) {
     return (
-      <div className="flex-3 bg-customWhite rounded-xl border border-border text-brand flex items-center justify-center">
+      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin opacity-50" />
       </div>
     );
@@ -55,7 +55,7 @@ export function Main() {
 
   if (error || !localRecipe) {
     return (
-      <div className="flex-3 bg-customWhite rounded-xl border border-border text-brand flex items-center justify-center">
+      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
         <p>Recipe not found.</p>
       </div>
     );

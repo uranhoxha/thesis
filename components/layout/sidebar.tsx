@@ -1,85 +1,85 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import RedLogo from "@/public/red_logo.svg";
-import GreenLogo from "@/public/green_logo.svg";
-import BlueLogo from "@/public/blue_logo.svg";
-import YellowLogo from "@/public/yellow_logo.svg";
+import Image from 'next/image'
+import RedLogo from '@/public/red_logo.svg'
+import GreenLogo from '@/public/green_logo.svg'
+import BlueLogo from '@/public/blue_logo.svg'
+import YellowLogo from '@/public/yellow_logo.svg'
 
-import { Button } from "@/components/ui/button";
-import { LogOut, Plus, FileText, Loader2, Settings } from "lucide-react";
-import { logout } from "@/features/auth/api/auth";
-import { useTransition } from "react";
-import { createRecipe, getRecipes } from "@/features/recipes/api/recipes";
-import { useRouter, useSearchParams } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/browser";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { Button } from '@/components/ui/button'
+import { LogOut, Plus, FileText, Loader2, Settings } from 'lucide-react'
+import { logout } from '@/features/auth/api/auth'
+import { useTransition } from 'react'
+import { createRecipe, getRecipes } from '@/features/recipes/api/recipes'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/browser'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
-import { SettingsModal } from "@/features/settings/components/settings-modal";
-import { useTheme } from "@/features/settings/hooks/use-theme";
+import { SettingsModal } from '@/features/settings/components/settings-modal'
+import { useTheme } from '@/features/settings/hooks/use-theme'
 
 const logos = {
   red: RedLogo,
   green: GreenLogo,
   blue: BlueLogo,
   yellow: YellowLogo,
-};
+}
 
 export function Sidebar() {
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const activeId = Number(searchParams.get("recipeId"));
-  const queryClient = useQueryClient();
-  const { theme } = useTheme();
+  const [isPending, startTransition] = useTransition()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const activeId = Number(searchParams.get('recipeId'))
+  const queryClient = useQueryClient()
+  const { theme } = useTheme()
 
   const { data: recipes = [] } = useQuery({
-    queryKey: ["recipes"],
+    queryKey: ['recipes'],
     queryFn: () => getRecipes(),
-  });
+  })
 
-  const supabase = createClient();
+  const supabase = createClient()
 
   useEffect(() => {
     const channel = supabase
-      .channel("recipes_channel_realtime")
+      .channel('recipes_channel_realtime')
       .on(
-        "postgres_changes",
+        'postgres_changes',
         {
-          event: "*",
-          schema: "public",
-          table: "recipes",
+          event: '*',
+          schema: 'public',
+          table: 'recipes',
         },
         () => {
-          queryClient.invalidateQueries({ queryKey: ["recipes"] });
+          queryClient.invalidateQueries({ queryKey: ['recipes'] })
         },
       )
-      .subscribe();
+      .subscribe()
 
     return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase, queryClient]);
+      supabase.removeChannel(channel)
+    }
+  }, [supabase, queryClient])
 
   const handleCreate = async () => {
     startTransition(async () => {
       try {
-        const newRecipe = await createRecipe();
-        queryClient.invalidateQueries({ queryKey: ["recipes"] });
-        router.push(`/dashboard?recipeId=${newRecipe.id}`);
+        const newRecipe = await createRecipe()
+        queryClient.invalidateQueries({ queryKey: ['recipes'] })
+        router.push(`/home?recipeId=${newRecipe.id}`)
       } catch (error) {
-        console.error("Failed to create recipe");
+        console.error('Failed to create recipe')
       }
-    });
-  };
+    })
+  }
 
   const handleSelect = (id: number) => {
-    router.push(`/dashboard?recipeId=${id}`);
-  };
+    router.push(`/home?recipeId=${id}`)
+  }
 
-  const Logo = logos[theme] || GreenLogo;
+  const Logo = logos[theme] || GreenLogo
 
   return (
     <div className="bg-customWhite rounded-l-xl border-r border-border text-brand w-64 flex flex-col py-4 gap-4 h-full">
@@ -93,14 +93,14 @@ export function Sidebar() {
               key={recipe.id}
               onClick={() => handleSelect(recipe.id)}
               className={cn(
-                "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shrink-0",
+                'w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shrink-0',
                 activeId === recipe.id
-                  ? "bg-green-100/50 text-brand font-medium"
-                  : "hover:bg-gray-100 text-gray-600",
+                  ? 'bg-brand/10 text-brand font-medium'
+                  : 'hover:bg-gray-100 text-gray-600',
               )}
             >
               <FileText className="w-4 h-4 opacity-50 shrink-0" />
-              <span className="truncate">{recipe.title || "Untitled"}</span>
+              <span className="truncate">{recipe.title || 'Untitled'}</span>
             </button>
           ))}
         </div>
@@ -140,5 +140,5 @@ export function Sidebar() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

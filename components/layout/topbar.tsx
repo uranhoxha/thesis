@@ -35,7 +35,7 @@ export function Topbar() {
         {isAdmin &&
           (isOnAdmin ? (
             <Button variant="outline" size="sm" asChild>
-              <Link href="/dashboard">Go to Main</Link>
+              <Link href="/home">Go to Main</Link>
             </Button>
           ) : (
             <Button variant="outline" size="sm" asChild>

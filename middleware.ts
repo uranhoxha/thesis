@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { createServerClient } from "@supabase/auth-helpers-nextjs";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { createServerClient } from '@supabase/auth-helpers-nextjs'
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
+  const res = NextResponse.next()
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,28 +15,28 @@ export async function middleware(req: NextRequest) {
         remove: () => {},
       },
     },
-  );
+  )
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
-  if (req.nextUrl.pathname === "/") {
+  if (req.nextUrl.pathname === '/') {
     if (user) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      return NextResponse.redirect(new URL('/home', req.url))
     } else {
-      return NextResponse.redirect(new URL("/login", req.url));
+      return NextResponse.redirect(new URL('/login', req.url))
     }
   }
 
   // Redirect if no user trying to access other protected routes
   if (!user) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  return res;
+  return res
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/"],
-};
+  matcher: ['/home/:path*', '/'],
+}

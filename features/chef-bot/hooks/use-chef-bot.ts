@@ -20,7 +20,7 @@ export function useChefBot() {
       try {
         const newRecipe = await createRecipe(title, content)
         queryClient.invalidateQueries({ queryKey: ['recipes'] })
-        router.push(`/dashboard?recipeId=${newRecipe.id}`)
+        router.push(`/home?recipeId=${newRecipe.id}`)
         setIsOpen(false)
       } catch (error) {
         console.error('Failed to add recipe')

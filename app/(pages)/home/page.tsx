@@ -1,10 +1,10 @@
-import { BuyList } from "@/features/buy-list/components/buy-list";
-import { Main } from "@/features/dashboard/components/main-view";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Timer } from "@/features/timer/components/timer";
-import { Topbar } from "@/components/layout/topbar";
-import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { BuyList } from '@/features/buy-list/components/buy-list'
+import { Main } from '@/features/home/components/main-view'
+import { Sidebar } from '@/components/layout/sidebar'
+import { Timer } from '@/features/timer/components/timer'
+import { Topbar } from '@/components/layout/topbar'
+import { Suspense } from 'react'
+import { Loader2 } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -32,5 +32,5 @@ export default function Home() {
         </div>
       </div>
     </Suspense>
-  );
+  )
 }

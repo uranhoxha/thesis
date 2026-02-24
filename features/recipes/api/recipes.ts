@@ -1,103 +1,103 @@
-"use server";
+'use server'
 
-import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { createClient } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
 
 export interface Recipe {
-  id: number;
-  title: string;
-  content: string;
-  updated_at: string;
+  id: number
+  title: string
+  content: string
+  updated_at: string
 }
 
 export async function getRecipes(): Promise<Recipe[]> {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const { data, error } = await supabase
-    .from("recipes")
-    .select("*")
-    .order("updated_at", { ascending: false });
+    .from('recipes')
+    .select('*')
+    .order('updated_at', { ascending: false })
 
   if (error) {
-    console.error("Error fetching recipes:", error);
-    return [];
+    console.error('Error fetching recipes:', error)
+    return []
   }
 
-  return data as Recipe[];
+  return data as Recipe[]
 }
 
 export async function getRecipe(id: number): Promise<Recipe | null> {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const { data, error } = await supabase
-    .from("recipes")
-    .select("*")
-    .eq("id", id)
-    .single();
+    .from('recipes')
+    .select('*')
+    .eq('id', id)
+    .single()
 
   if (error) {
-    return null;
+    return null
   }
 
-  return data as Recipe;
+  return data as Recipe
 }
 
 export async function createRecipe(
-  title: string = "Untitled Recipe",
-  content: string = "",
+  title: string = 'Untitled Recipe',
+  content: string = '',
 ) {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
   if (!user) {
-    throw new Error("User not authenticated");
+    throw new Error('User not authenticated')
   }
 
   const { data, error } = await supabase
-    .from("recipes")
+    .from('recipes')
     .insert({
       title,
       content,
       user_id: user.id,
     })
     .select()
-    .single();
+    .single()
 
   if (error) {
-    console.error("Error creating recipe:", error);
-    throw new Error("Failed to create recipe");
+    console.error('Error creating recipe:', error)
+    throw new Error('Failed to create recipe')
   }
 
-  revalidatePath("/dashboard");
-  return data as Recipe;
+  revalidatePath('/home')
+  return data as Recipe
 }
 
 export async function updateRecipe(id: number, updates: Partial<Recipe>) {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const { error } = await supabase
-    .from("recipes")
+    .from('recipes')
     .update({
       ...updates,
       updated_at: new Date().toISOString(),
     })
-    .eq("id", id);
+    .eq('id', id)
 
   if (error) {
-    console.error("Error updating recipe:", error);
-    throw new Error("Failed to update recipe");
+    console.error('Error updating recipe:', error)
+    throw new Error('Failed to update recipe')
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath('/home')
 }
 
 export async function deleteRecipe(id: number) {
-  const supabase = await createClient();
-  const { error } = await supabase.from("recipes").delete().eq("id", id);
+  const supabase = await createClient()
+  const { error } = await supabase.from('recipes').delete().eq('id', id)
 
   if (error) {
-    console.error("Error deleting recipe:", error);
-    throw new Error("Failed to delete recipe");
+    console.error('Error deleting recipe:', error)
+    throw new Error('Failed to delete recipe')
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath('/home')
 }
