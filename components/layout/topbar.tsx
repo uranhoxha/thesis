@@ -2,9 +2,8 @@
 import { UserRound } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getCurrentUser } from '@/features/auth/api/auth'
-import tipsData from '@/public/cooking-tips.json'
 import { ProfileModal } from '@/features/profile/components/profile-modal'
-import { checkIsAdmin } from '@/features/admin/actions'
+import { checkIsAdmin, getAdminCookingTips } from '@/features/admin/actions'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -12,15 +11,28 @@ import { usePathname } from 'next/navigation'
 export function Topbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>(null)
-  const [tip, setTip] = useState<string>('')
+  const [tip, setTip] = useState<string>('Loading tip...')
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const pathname = usePathname()
   const isOnAdmin = pathname.startsWith('/admin')
 
   useEffect(() => {
-    const randomTip = tipsData[Math.floor(Math.random() * tipsData.length)].tip
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTip(randomTip)
+    const fetchTip = async () => {
+      try {
+        const tipsData = await getAdminCookingTips()
+        if (tipsData && tipsData.length > 0) {
+          const randomTip =
+            tipsData[Math.floor(Math.random() * tipsData.length)].tip
+          setTip(randomTip)
+        } else {
+          setTip('Stay hydrated while cooking!')
+        }
+      } catch (err) {
+        setTip('Stay hydrated while cooking!')
+      }
+    }
+
+    fetchTip()
     getCurrentUser().then(setUser)
     checkIsAdmin().then(setIsAdmin)
   }, [])

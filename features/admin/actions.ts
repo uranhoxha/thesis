@@ -3,7 +3,7 @@
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { DailyPickData } from './types'
+import { DailyPickData, CookingTipData } from './types'
 
 export async function checkIsAdmin() {
   const supabase = await createClient()
@@ -111,5 +111,79 @@ export async function updateDailyPick(
   }
 
   revalidatePath('/admin/chatbot')
+  return { success: true }
+}
+
+export async function getAdminCookingTips(): Promise<CookingTipData[]> {
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) return []
+
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('cooking_tips')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching cooking tips:', error)
+    return []
+  }
+
+  return data as CookingTipData[]
+}
+
+export async function createCookingTip(
+  tipData: Omit<CookingTipData, 'id' | 'created_at'>,
+) {
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) return { success: false, error: 'Unauthorized' }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from('cooking_tips').insert([tipData])
+
+  if (error) {
+    console.error('Error creating cooking tip:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/admin/cooking-tips')
+  return { success: true }
+}
+
+export async function deleteCookingTip(id: number) {
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) return { success: false, error: 'Unauthorized' }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from('cooking_tips').delete().eq('id', id)
+
+  if (error) {
+    console.error('Error deleting cooking tip:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/admin/cooking-tips')
+  return { success: true }
+}
+
+export async function updateCookingTip(
+  id: number,
+  tipData: Partial<Omit<CookingTipData, 'id' | 'created_at'>>,
+) {
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) return { success: false, error: 'Unauthorized' }
+
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('cooking_tips')
+    .update(tipData)
+    .eq('id', id)
+
+  if (error) {
+    console.error('Error updating cooking tip:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/admin/cooking-tips')
   return { success: true }
 }

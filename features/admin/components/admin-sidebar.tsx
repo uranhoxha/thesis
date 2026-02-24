@@ -3,10 +3,11 @@
 import Image from 'next/image'
 import GreenLogo from '@/public/green_logo.svg'
 import { Button } from '@/components/ui/button'
-import { LogOut, Users, BotMessageSquare } from 'lucide-react'
+import { LogOut, Users, BotMessageSquare, Lightbulb, Settings } from 'lucide-react'
 import { logout } from '@/features/auth/api/auth'
 import { useRouter, usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { SettingsModal } from '@/features/settings/components/settings-modal'
 
 export function AdminSidebar() {
   const router = useRouter()
@@ -26,6 +27,11 @@ export function AdminSidebar() {
       title: 'Daily Picks',
       path: '/admin/chatbot',
       icon: BotMessageSquare,
+    },
+    {
+      title: 'Cooking Tips',
+      path: '/admin/cooking-tips',
+      icon: Lightbulb,
     },
   ]
 
@@ -60,6 +66,15 @@ export function AdminSidebar() {
       </div>
 
       <div className="px-4 mt-auto shrink-0 space-y-2">
+        <SettingsModal>
+          <Button
+            variant="ghost"
+            className="w-full justify-start hover:bg-brand/10"
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Settings
+          </Button>
+        </SettingsModal>
         <Button
           variant="ghost"
           onClick={() => logout()}

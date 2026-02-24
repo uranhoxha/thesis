@@ -43,6 +43,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+
 import { DailyPickData } from '../types'
 
 interface ChatbotAdminProps {
@@ -142,14 +155,35 @@ export function ChatbotAdmin({ initialPicks }: ChatbotAdminProps) {
             >
               Edit
             </Button>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={() => handleDelete(pick.id)}
-              disabled={isDeleting === pick.id}
-            >
-              {isDeleting === pick.id ? 'Deleting...' : 'Delete'}
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={isDeleting === pick.id}
+                >
+                  {isDeleting === pick.id ? 'Deleting...' : 'Delete'}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the daily pick from the database.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete(pick.id)}
+                    className="bg-red-500 hover:bg-red-600"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         )
       },

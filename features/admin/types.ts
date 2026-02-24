@@ -5,3 +5,9 @@ export interface DailyPickData {
   content: string
   created_at: string
 }
+
+export interface CookingTipData {
+  id: number
+  tip: string
+  created_at: string
+}
