@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { User } from "@supabase/supabase-js";
-import { deleteUser } from "../actions";
+import { useState } from 'react'
+import { User } from '@supabase/supabase-js'
+import { deleteUser } from '../actions'
 
 import {
   ColumnDef,
@@ -10,7 +10,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table'
 
 import {
   Table,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table'
 
 import {
   AlertDialog,
@@ -31,56 +31,56 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog'
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import Link from 'next/link'
 
 interface AdminDashboardProps {
-  initialUsers: User[];
+  initialUsers: User[]
 }
 
 export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
-  const [users, setUsers] = useState<User[]>(initialUsers);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>(initialUsers)
+  const [globalFilter, setGlobalFilter] = useState('')
+  const [isDeleting, setIsDeleting] = useState<string | null>(null)
 
   const handleDelete = async (userId: string) => {
-    setIsDeleting(userId);
-    const result = await deleteUser(userId);
+    setIsDeleting(userId)
+    const result = await deleteUser(userId)
 
     if (result.success) {
-      setUsers(users.filter((user) => user.id !== userId));
+      setUsers(users.filter((user) => user.id !== userId))
     } else {
-      alert("Failed to delete user: " + result.error);
+      alert('Failed to delete user: ' + result.error)
     }
-    setIsDeleting(null);
-  };
+    setIsDeleting(null)
+  }
 
   const columns: ColumnDef<User>[] = [
     {
-      accessorFn: (row) => row.user_metadata?.full_name || "N/A",
-      id: "name",
-      header: "User",
+      accessorFn: (row) => row.user_metadata?.full_name || 'N/A',
+      id: 'name',
+      header: 'User',
       cell: (info) => (
         <div className="font-medium">{info.getValue() as string}</div>
       ),
     },
     {
-      accessorKey: "email",
-      header: "Email",
+      accessorKey: 'email',
+      header: 'Email',
     },
     {
-      accessorKey: "created_at",
-      header: "Signed Up",
+      accessorKey: 'created_at',
+      header: 'Signed Up',
       cell: (info) => new Date(info.getValue() as string).toLocaleDateString(),
     },
     {
-      id: "actions",
+      id: 'actions',
       header: () => <div className="text-right">Actions</div>,
       cell: ({ row }) => {
-        const user = row.original;
+        const user = row.original
         return (
           <div className="text-right">
             <AlertDialog>
@@ -90,7 +90,7 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
                   size="sm"
                   disabled={isDeleting === user.id}
                 >
-                  {isDeleting === user.id ? "Deleting..." : "Delete"}
+                  {isDeleting === user.id ? 'Deleting...' : 'Delete'}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -114,10 +114,10 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
               </AlertDialogContent>
             </AlertDialog>
           </div>
-        );
+        )
       },
     },
-  ];
+  ]
 
   const table = useReactTable({
     data: users,
@@ -125,30 +125,26 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
-      const email = row.original.email?.toLowerCase() || "";
-      const name = (row.original.user_metadata?.full_name || "").toLowerCase();
-      const value = filterValue.toLowerCase();
-      return email.includes(value) || name.includes(value);
+      const email = row.original.email?.toLowerCase() || ''
+      const name = (row.original.user_metadata?.full_name || '').toLowerCase()
+      const value = filterValue.toLowerCase()
+      return email.includes(value) || name.includes(value)
     },
     state: {
       globalFilter,
     },
     onGlobalFilterChange: setGlobalFilter,
-  });
+  })
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 px-4">
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <Button variant="outline">
-            <Link href="/dashboard">Go to Main</Link>
-          </Button>
-        </div>
+        <h1 className="text-3xl font-bold">Manage Users</h1>
+
         <div className="w-full max-w-sm">
           <Input
             placeholder="Search by email or name..."
-            value={globalFilter ?? ""}
+            value={globalFilter ?? ''}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="w-full"
           />
@@ -170,7 +166,7 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
                             header.getContext(),
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -180,7 +176,7 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -206,5 +202,5 @@ export function AdminDashboard({ initialUsers }: AdminDashboardProps) {
         </Table>
       </div>
     </div>
-  );
+  )
 }

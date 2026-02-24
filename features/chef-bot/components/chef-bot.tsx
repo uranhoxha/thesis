@@ -1,28 +1,34 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { Loader2, Plus, ChefHat } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { RecipeCategory } from "../data/daily-picks";
+import Image from 'next/image'
+import { Loader2, Plus, ChefHat } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+type RecipeCategory = 'savory' | 'snack' | 'dessert'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { useChefBot } from "../hooks/use-chef-bot";
-import ChatIcon from "@/public/normal.svg";
-import ChatIconHover from "@/public/happy.svg";
+} from '@/components/ui/popover'
+import { useChefBot } from '../hooks/use-chef-bot'
+import ChatIcon from '@/public/normal.svg'
+import ChatIconHover from '@/public/happy.svg'
 
 const categoryColors: Record<RecipeCategory, string> = {
-  savory: "bg-yellow-100 text-yellow-800 border border-yellow-200",
-  snack: "bg-blue-100 text-blue-800 border border-blue-200",
-  dessert: "bg-pink-100 text-pink-800 border border-pink-200",
-};
+  savory: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+  snack: 'bg-blue-100 text-blue-800 border border-blue-200',
+  dessert: 'bg-pink-100 text-pink-800 border border-pink-200',
+}
 
 export function ChefBot() {
-  const { isOpen, setIsOpen, isPending, dailyPicks, handleAddRecipe } =
-    useChefBot();
+  const {
+    isOpen,
+    setIsOpen,
+    isPending,
+    dailyPicks,
+    isLoadingPicks,
+    handleAddRecipe,
+  } = useChefBot()
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -60,46 +66,56 @@ export function ChefBot() {
         </div>
 
         <div className="max-h-[400px] overflow-y-auto p-4 space-y-4">
-          {dailyPicks.map((pick, index) => (
-            <div
-              key={index}
-              className="group border border-gray-100 rounded-lg p-3 hover:border-brand/30 hover:bg-brand/5 transition-all"
-            >
-              <div className="flex justify-between items-start gap-2 mb-2">
-                <div>
-                  <h4 className="font-medium text-sm">{pick.title}</h4>
-                  <span
-                    className={cn(
-                      "text-xs capitalize px-2 py-0.5 rounded-full mt-1 inline-block",
-                      categoryColors[pick.category] ||
-                        "bg-gray-100 text-gray-500",
-                    )}
-                  >
-                    {pick.category}
-                  </span>
-                </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0 text-brand bg-white border border-brand/20 hover:bg-brand hover:text-white rounded-full shadow-sm"
-                  onClick={() => handleAddRecipe(pick.title, pick.content)}
-                  disabled={isPending}
-                  title="Cook this"
-                >
-                  {isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )}
-                </Button>
-              </div>
-              <p className="text-xs text-gray-400 line-clamp-2">
-                {pick.content}
-              </p>
+          {isLoadingPicks ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-brand/50" />
             </div>
-          ))}
+          ) : dailyPicks.length === 0 ? (
+            <div className="text-center py-8 text-sm text-gray-400">
+              No daily picks found! Come back later. 👨‍🍳
+            </div>
+          ) : (
+            dailyPicks.map((pick, index) => (
+              <div
+                key={index}
+                className="group border border-gray-100 rounded-lg p-3 hover:border-brand/30 hover:bg-brand/5 transition-all"
+              >
+                <div className="flex justify-between items-start gap-2 mb-2">
+                  <div>
+                    <h4 className="font-medium text-sm">{pick.title}</h4>
+                    <span
+                      className={cn(
+                        'text-xs capitalize px-2 py-0.5 rounded-full mt-1 inline-block',
+                        categoryColors[pick.category as RecipeCategory] ||
+                          'bg-gray-100 text-gray-500',
+                      )}
+                    >
+                      {pick.category}
+                    </span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-brand bg-white border border-brand/20 hover:bg-brand hover:text-white rounded-full shadow-sm"
+                    onClick={() => handleAddRecipe(pick.title, pick.content)}
+                    disabled={isPending}
+                    title="Cook this"
+                  >
+                    {isPending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Plus className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
+                <p className="text-xs text-gray-400 line-clamp-2">
+                  {pick.content}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

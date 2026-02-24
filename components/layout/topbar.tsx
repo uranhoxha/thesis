@@ -1,26 +1,29 @@
-"use client";
-import { UserRound } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/features/auth/api/auth";
-import tipsData from "@/public/cooking-tips.json";
-import { ProfileModal } from "@/features/profile/components/profile-modal";
-import { checkIsAdmin } from "@/features/admin/actions";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+'use client'
+import { UserRound } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { getCurrentUser } from '@/features/auth/api/auth'
+import tipsData from '@/public/cooking-tips.json'
+import { ProfileModal } from '@/features/profile/components/profile-modal'
+import { checkIsAdmin } from '@/features/admin/actions'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export function Topbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any>(null);
-  const [tip, setTip] = useState<string>("");
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [user, setUser] = useState<any>(null)
+  const [tip, setTip] = useState<string>('')
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const pathname = usePathname()
+  const isOnAdmin = pathname.startsWith('/admin')
 
   useEffect(() => {
-    const randomTip = tipsData[Math.floor(Math.random() * tipsData.length)].tip;
+    const randomTip = tipsData[Math.floor(Math.random() * tipsData.length)].tip
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTip(randomTip);
-    getCurrentUser().then(setUser);
-    checkIsAdmin().then(setIsAdmin);
-  }, []);
+    setTip(randomTip)
+    getCurrentUser().then(setUser)
+    checkIsAdmin().then(setIsAdmin)
+  }, [])
 
   return (
     <div className="bg-customWhite rounded-tr-xl border-b border-border text-brand h-16 shrink-0 flex items-center justify-between px-4">
@@ -29,11 +32,16 @@ export function Topbar() {
       </h1>
 
       <div className="flex items-center gap-4">
-        {isAdmin && (
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/admin">Go to Admin</Link>
-          </Button>
-        )}
+        {isAdmin &&
+          (isOnAdmin ? (
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/dashboard">Go to Main</Link>
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/admin">Admin Dashboard</Link>
+            </Button>
+          ))}
 
         <ProfileModal user={user}>
           <div className="flex items-center bg-white rounded-full border border-border gap-2 cursor-pointer w-max hover:bg-gray-50 transition-colors">
@@ -50,12 +58,12 @@ export function Topbar() {
             </div>
             <div className="pr-4">
               <h4 className="text-muted-foreground text-sm font-medium">
-                {user ? user.email : "Boiling..."}
+                {user ? user.email : 'Boiling...'}
               </h4>
             </div>
           </div>
         </ProfileModal>
       </div>
     </div>
-  );
+  )
 }
