@@ -24,9 +24,8 @@ export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === '/') {
     if (user) {
       return NextResponse.redirect(new URL('/home', req.url))
-    } else {
-      return NextResponse.redirect(new URL('/login', req.url))
     }
+    return res
   }
 
   // Redirect if no user trying to access other protected routes
