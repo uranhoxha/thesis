@@ -7,6 +7,7 @@ import { checkIsAdmin, getAdminCookingTips } from '@/features/admin/actions'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { VoiceToggle } from '@/features/voice/components/voice-toggle'
 
 export function Topbar() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,6 +45,8 @@ export function Topbar() {
       </h1>
 
       <div className="flex items-center gap-4">
+        <VoiceToggle />
+
         {isAdmin &&
           (isOnAdmin ? (
             <Button variant="outline" size="sm" asChild>

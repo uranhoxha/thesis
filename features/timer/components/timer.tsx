@@ -8,7 +8,7 @@ import {
   Timer as TimerIcon,
 } from "lucide-react";
 
-import { useTimer } from "../hooks/use-hooks";
+import { useTimerContext } from "../providers/timer-provider";
 
 export function Timer() {
   const {
@@ -24,7 +24,6 @@ export function Timer() {
     setInputMinutes,
     inputSeconds,
     setInputSeconds,
-    intervalRef,
     hours,
     minutes,
     seconds,
@@ -33,7 +32,7 @@ export function Timer() {
     handleStart,
     handleStop,
     handleReset,
-  } = useTimer();
+  } = useTimerContext();
 
   return (
     <div className="flex flex-col items-center justify-between bg-customWhite text-brand p-4 flex-1">
