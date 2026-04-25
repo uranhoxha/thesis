@@ -7,9 +7,16 @@ import BlueLogo from '@/public/blue_logo.svg'
 import YellowLogo from '@/public/yellow_logo.svg'
 
 import { Button } from '@/components/ui/button'
-import { LogOut, Plus, FileText, Loader2, Settings } from 'lucide-react'
+import {
+  LogOut,
+  Plus,
+  FileText,
+  Loader2,
+  Settings,
+  Sparkles,
+} from 'lucide-react'
 import { logout } from '@/features/auth/api/auth'
-import { useTransition } from 'react'
+import { useTransition, useState } from 'react'
 import { createRecipe, getRecipes } from '@/features/recipes/api/recipes'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -18,7 +25,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
 import { SettingsModal } from '@/features/settings/components/settings-modal'
-import { useTheme } from '@/features/settings/hooks/use-theme'
+import { useSettings } from '@/features/settings/hooks/use-theme'
+import { PantryScanDialog } from '@/features/pantry-scan/components/pantry-scan-dialog'
 
 const logos = {
   red: RedLogo,
@@ -29,11 +37,12 @@ const logos = {
 
 export function Sidebar() {
   const [isPending, startTransition] = useTransition()
+  const [pantryOpen, setPantryOpen] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const activeId = Number(searchParams.get('recipeId'))
   const queryClient = useQueryClient()
-  const { theme } = useTheme()
+  const { theme, aiDisabled } = useSettings()
 
   const { data: recipes = [] } = useQuery({
     queryKey: ['recipes'],
@@ -104,7 +113,7 @@ export function Sidebar() {
             </button>
           ))}
         </div>
-        <div className="shrink-0 w-full px-2">
+        <div className="shrink-0 w-full px-2 space-y-2">
           <Button
             onClick={handleCreate}
             disabled={isPending}
@@ -117,6 +126,22 @@ export function Sidebar() {
             )}
             New Recipe
           </Button>
+          {!aiDisabled && (
+            <>
+              <Button
+                onClick={() => setPantryOpen(true)}
+                variant="outline"
+                className="w-full border-brand/40 text-brand hover:bg-brand/10"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Pantry Scan
+              </Button>
+              <PantryScanDialog
+                open={pantryOpen}
+                onOpenChange={setPantryOpen}
+              />
+            </>
+          )}
         </div>
       </div>
 
