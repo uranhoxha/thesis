@@ -15,16 +15,18 @@ export default function Home() {
         </div>
       }
     >
-      <div className="flex h-[calc(100vh-1rem)] m-2 border border-border rounded-xl">
-        <Sidebar />
+      <div className="flex h-[100dvh] md:h-[calc(100vh-1rem)] md:m-2 md:border md:border-border md:rounded-xl overflow-hidden">
+        <div className="hidden md:flex shrink-0">
+          <Sidebar />
+        </div>
 
-        <div className="flex flex-col flex-1 rounded-xl">
+        <div className="flex flex-col flex-1 min-w-0 rounded-xl">
           <Topbar />
 
-          <div className="flex flex-1 ">
+          <div className="flex flex-1 min-h-0">
             <Main />
 
-            <div className="flex flex-col w-64 border-l border-border">
+            <div className="hidden md:flex flex-col w-64 border-l border-border shrink-0">
               <BuyList />
               <Timer />
             </div>

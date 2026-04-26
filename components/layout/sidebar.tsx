@@ -35,7 +35,7 @@ const logos = {
   yellow: YellowLogo,
 }
 
-export function Sidebar() {
+export function Sidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
   const [isPending, startTransition] = useTransition()
   const [pantryOpen, setPantryOpen] = useState(false)
   const router = useRouter()
@@ -78,6 +78,7 @@ export function Sidebar() {
         const newRecipe = await createRecipe()
         queryClient.invalidateQueries({ queryKey: ['recipes'] })
         router.push(`/home?recipeId=${newRecipe.id}`)
+        onNavigate?.()
       } catch (error) {
         console.error('Failed to create recipe')
       }
@@ -86,14 +87,15 @@ export function Sidebar() {
 
   const handleSelect = (id: number) => {
     router.push(`/home?recipeId=${id}`)
+    onNavigate?.()
   }
 
   const Logo = logos[theme] || GreenLogo
 
   return (
-    <div className="bg-customWhite rounded-l-xl border-r border-border text-brand w-64 flex flex-col py-4 gap-4 h-full">
+    <div className="bg-customWhite md:rounded-l-xl md:border-r md:border-border text-brand w-full md:w-64 flex flex-col py-4 gap-4 h-full">
       <div className="px-2 flex flex-col items-center gap-4">
-        <Image src={Logo} alt="Logo" className=" w-50 absolute top-4" />
+        <Image src={Logo} alt="Logo" className="w-40 md:w-50 mt-2 md:mt-0 md:absolute md:top-4" />
       </div>
       <div className="flex-1 flex flex-col justify-center min-h-0 gap-4 py-2">
         <div className="overflow-y-auto px-2 space-y-1">

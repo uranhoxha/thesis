@@ -34,7 +34,7 @@ export function Main() {
 
   if (!recipeId) {
     return (
-      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
+      <div className="flex-1 md:flex-3 bg-customWhite text-brand flex items-center justify-center">
         <div className="text-center space-y-2 opacity-50">
           <p className="text-lg font-medium">No Recipe Selected</p>
           <p className="text-sm">
@@ -47,7 +47,7 @@ export function Main() {
 
   if (isLoading) {
     return (
-      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
+      <div className="flex-1 md:flex-3 bg-customWhite text-brand flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin opacity-50" />
       </div>
     );
@@ -55,21 +55,21 @@ export function Main() {
 
   if (error || !localRecipe) {
     return (
-      <div className="flex-3 bg-customWhite text-brand flex items-center justify-center">
+      <div className="flex-1 md:flex-3 bg-customWhite text-brand flex items-center justify-center">
         <p>Recipe not found.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-3 bg-customWhite text-brand p-8 flex flex-col gap-6 relative">
-      <div className="flex justify-between items-start gap-4">
+    <div className="flex-1 md:flex-3 min-w-0 bg-customWhite text-brand p-4 md:p-8 flex flex-col gap-4 md:gap-6 relative">
+      <div className="flex justify-between items-start gap-2 md:gap-4">
         <input
           type="text"
           value={localRecipe.title}
           onChange={(e) => handleChange("title", e.target.value)}
           placeholder="Untitled Recipe"
-          className="text-4xl font-bold bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-gray-300 w-full"
+          className="text-2xl md:text-4xl font-bold bg-transparent border-none focus:outline-none focus:ring-0 placeholder:text-gray-300 w-full min-w-0"
         />
         <div className="flex items-center gap-2">
           {saving && (
