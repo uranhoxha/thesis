@@ -1,16 +1,6 @@
-import { Camera, Mic, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 const items = [
-  {
-    icon: Camera,
-    label: 'Pantry → plate',
-    body: 'Snap your fridge. Get three things you can actually make right now, with what you already have.',
-  },
-  {
-    icon: Mic,
-    label: 'Hands-free mode',
-    body: '"Next step." "Set a 7-minute timer." "Repeat that." For when your hands are covered in dough.',
-  },
   {
     icon: Search,
     label: 'Search that thinks',
@@ -35,9 +25,9 @@ export function Vision() {
             </h2>
           </div>
           <p className="md:col-span-7 max-w-2xl text-[17px] leading-[1.7] text-[var(--ink)]/80">
-            Three quiet experiments are next. The bar is the same as the rest of
-            the app: it has to make cooking easier, not just look clever in a
-            screenshot.
+            One quiet experiment is still in the kitchen. The bar is the same as
+            the rest of the app: it has to make cooking easier, not just look
+            clever in a screenshot.
           </p>
         </div>
 

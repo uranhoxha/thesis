@@ -9,6 +9,8 @@ import {
   Palette,
   Save,
   Check,
+  Sparkles,
+  Mic,
 } from 'lucide-react'
 import { useMarketingTheme, type MarketingTheme } from './theme-context'
 import { cn } from '@/lib/utils'
@@ -51,7 +53,7 @@ export function Features() {
             className="mt-3 font-display text-[clamp(2.25rem,5vw,3.8rem)] leading-[1] tracking-[-0.02em]"
             style={{ fontFamily: 'var(--font-display), serif' }}
           >
-            Six small things, <span className="italic">done well</span>.
+            Eight small things, <span className="italic">done well</span>.
           </h2>
         </div>
         <p className="hidden max-w-xs text-[15px] leading-relaxed text-[var(--ink)]/70 md:block">
@@ -305,6 +307,71 @@ and oil is slightly red. Serves 2.`}
                 </button>
               )
             })}
+          </div>
+        </article>
+
+        {/* AI / Pantry → plate */}
+        <article className="md:col-span-2 group relative overflow-hidden rounded-2xl border border-[var(--rule)] bg-white p-7">
+          <Kicker n="07">AI</Kicker>
+          <Sparkles className="mt-4 h-6 w-6 text-brand" />
+          <h3
+            className="mt-3 font-display text-[26px] leading-tight tracking-[-0.01em]"
+            style={{ fontFamily: 'var(--font-display), serif' }}
+          >
+            Tell it what you <br />
+            <span className="italic">have</span>.
+          </h3>
+          <p className="mt-2 text-[14px] leading-relaxed text-[var(--ink)]/70">
+            Drop in your ingredients. ChefBot writes three recipes you can
+            actually make tonight — not a Pinterest board.
+          </p>
+
+          <div className="mt-5 rounded-lg border border-[var(--rule)] bg-[var(--paper)] p-3">
+            <div className="flex flex-wrap gap-1.5">
+              {['eggs', 'spinach', 'feta', 'lemon', 'bread'].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-[var(--rule)] bg-white px-2 py-0.5 text-[11px] text-[var(--ink)]/70"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase text-[var(--soft)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+              3 recipes →
+            </div>
+          </div>
+        </article>
+
+        {/* Voice / Hands-free */}
+        <article className="md:col-span-2 group relative overflow-hidden rounded-2xl border border-[var(--rule)] bg-white p-7">
+          <Kicker n="08">Voice</Kicker>
+          <Mic className="mt-4 h-6 w-6 text-brand" />
+          <h3
+            className="mt-3 font-display text-[26px] leading-tight tracking-[-0.01em]"
+            style={{ fontFamily: 'var(--font-display), serif' }}
+          >
+            Hands covered <br />
+            in dough?
+          </h3>
+          <p className="mt-2 text-[14px] leading-relaxed text-[var(--ink)]/70">
+            &quot;Next step.&quot; &quot;Set a 7-minute timer.&quot; &quot;Repeat
+            that.&quot; The recipe listens.
+          </p>
+
+          <div className="mt-5 space-y-2">
+            {['Next step', 'Set a 7-minute timer', 'Repeat that'].map(
+              (t, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 rounded-lg border border-[var(--rule)] bg-[var(--paper)] px-3 py-2 text-[12px] text-[var(--ink)]/80"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand blink" />
+                  &quot;{t}&quot;
+                </div>
+              ),
+            )}
           </div>
         </article>
       </div>
