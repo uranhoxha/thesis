@@ -34,7 +34,7 @@ export function ChefBot() {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
-          className="group fixed bottom-8 right-59 w-15 h-15 rounded-full shadow-lg bg-white hover:bg-gray-50 border border-border p-2 overflow-hidden"
+          className="group fixed bottom-4 right-4 md:bottom-8 md:right-59 w-15 h-15 rounded-full shadow-lg bg-white hover:bg-gray-50 border border-border p-2 overflow-hidden z-30"
           size="icon"
         >
           <div className="relative w-full h-full">
@@ -54,7 +54,7 @@ export function ChefBot() {
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 mr-8 mb-4 p-0 overflow-hidden border-border bg-white shadow-xl rounded-xl">
+      <PopoverContent className="w-[calc(100vw-2rem)] max-w-sm md:w-96 mr-4 md:mr-8 mb-4 p-0 overflow-hidden border-border bg-white shadow-xl rounded-xl">
         <div className="bg-gradient-to-r from-brand/10 to-brand/5 p-4 border-b border-border">
           <div className="flex items-center gap-2 mb-1">
             <ChefHat className="w-5 h-5 text-brand" />
