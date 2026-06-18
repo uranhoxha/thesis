@@ -281,7 +281,7 @@ export function PantryScanDialog({
         <button
           type="button"
           onClick={() => uploadRef.current?.click()}
-          className="w-full h-40 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-brand hover:text-brand transition-colors"
+          className="w-full h-40 border-2 border-dashed border-border rounded-lg surface-well flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-brand hover:text-brand transition-colors"
         >
           <Upload className="w-8 h-8" />
           <span className="text-sm">Tap to choose an image</span>

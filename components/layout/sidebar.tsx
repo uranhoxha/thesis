@@ -106,7 +106,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
               className={cn(
                 'w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2 shrink-0',
                 activeId === recipe.id
-                  ? 'bg-brand/10 text-brand font-medium'
+                  ? 'bg-brand/10 text-brand font-medium surface-raised'
                   : 'hover:bg-gray-100 text-gray-600',
               )}
             >

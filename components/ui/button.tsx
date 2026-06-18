@@ -9,13 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-brand text-white hover:bg-brand/90",
+        // Saturated base: no top white in the gradient (keeps the color punchy),
+        // lit edge comes from the inset highlight shadow instead.
+        default:
+          "bg-brand text-white hover:bg-brand/90 [background-image:linear-gradient(to_bottom,rgba(255,255,255,0),rgba(0,0,0,0.15))] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),inset_0_-1px_0_0_rgba(0,0,0,0.22),0_1px_2px_0_rgba(0,0,0,0.18)] active:[background-image:linear-gradient(to_top,rgba(255,255,255,0),rgba(0,0,0,0.15))] active:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.28),inset_0_1px_0_0_rgba(0,0,0,0.12)] active:translate-y-px",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 [background-image:linear-gradient(to_bottom,rgba(255,255,255,0),rgba(0,0,0,0.15))] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22),inset_0_-1px_0_0_rgba(0,0,0,0.22),0_1px_2px_0_rgba(0,0,0,0.18)] active:[background-image:linear-gradient(to_top,rgba(255,255,255,0),rgba(0,0,0,0.15))] active:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.28),inset_0_1px_0_0_rgba(0,0,0,0.12)] active:translate-y-px",
+        // Light base: strong lit top edge reads well on the light fill.
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 [background-image:linear-gradient(to_bottom,rgba(255,255,255,0.5),rgba(0,0,0,0.04))] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_1px_2px_0_rgba(0,0,0,0.1)] active:[background-image:linear-gradient(to_top,rgba(255,255,255,0.5),rgba(0,0,0,0.04))] active:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.12),inset_0_1px_0_0_rgba(0,0,0,0.06)] active:translate-y-px dark:[background-image:linear-gradient(to_bottom,rgba(255,255,255,0.06),rgba(0,0,0,0.18))] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_2px_0_rgba(0,0,0,0.25)]",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 [background-image:linear-gradient(to_bottom,rgba(255,255,255,0.5),rgba(0,0,0,0.04))] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_1px_2px_0_rgba(0,0,0,0.1)] active:[background-image:linear-gradient(to_top,rgba(255,255,255,0.5),rgba(0,0,0,0.04))] active:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.12),inset_0_1px_0_0_rgba(0,0,0,0.06)] active:translate-y-px dark:[background-image:linear-gradient(to_bottom,rgba(255,255,255,0.06),rgba(0,0,0,0.18))] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_2px_0_rgba(0,0,0,0.25)]",
+        // Ghost & link stay flat — no lit surface.
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
