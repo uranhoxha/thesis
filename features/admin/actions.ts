@@ -18,6 +18,9 @@ export async function checkIsAdmin() {
 }
 
 export async function getUsers() {
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) throw new Error('Unauthorized')
+
   const { data, error } = await supabaseAdmin.auth.admin.listUsers()
 
   if (error) {
@@ -29,7 +32,10 @@ export async function getUsers() {
 }
 
 export async function deleteUser(userId: string) {
-  const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId)
+  const isAdmin = await checkIsAdmin()
+  if (!isAdmin) return { success: false, error: 'Unauthorized' }
+
+  const { error } = await supabaseAdmin.auth.admin.deleteUser(userId)
 
   if (error) {
     console.error('Error deleting user:', error)
