@@ -1,0 +1,7 @@
+▲ Next.js 16.1.6
+- Local:         http://localhost:3100
+- Network:       http://192.168.0.102:3100
+
+✓ Starting...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+✓ Ready in 567ms
